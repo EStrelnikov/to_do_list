@@ -2,9 +2,10 @@ import CreateTask from "../CreateTask/CreateTask";
 import { Todo } from "../Todo/Todo";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { getTodos } from "../../redux/toDoSlice";
+import { getTodos, Todo as IToDo } from "../../redux/toDoSlice";
 import { ClipLoader } from "react-spinners";
 import { Box, Typography } from "@mui/material";
+
 
 const defaultProps = {
   bgcolor: "background.paper",
@@ -19,10 +20,12 @@ const defaultProps = {
 
 export const Todos = () => {
   const todos = useAppSelector((state) => state.todo);
+  console.log(todos)
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getTodos());
   }, []);
+
   if (todos.status === "error") {
     return <div>Ошибка.Попробуйте позже...</div>;
   }
@@ -53,7 +56,7 @@ export const Todos = () => {
           />
         )}
         {todos.list?.length > 0 ? (
-          todos.list.map((todo) => (
+          todos.list.map((todo: IToDo) => (
             <Todo
               key={todo.title}
               todo={todo}

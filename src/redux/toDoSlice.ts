@@ -1,7 +1,6 @@
 import {
   createAsyncThunk,
   createSlice,
-  ActionReducerMapBuilder,
 } from "@reduxjs/toolkit";
 import { addToDoData, deleteToDoData, fetchData } from "../components/toDoApi";
 
@@ -14,13 +13,12 @@ export interface Todo {
 
 export const getTodos = createAsyncThunk("todo/fetchData", async () => {
   const response = await fetchData();
-  return response.data;
+  return response;
 });
 
-export const addTodos = createAsyncThunk("todo/addToDoData", async (todo) => {
+export const addTodos = createAsyncThunk("todo/addToDoData", async (todo: Todo) => {
   const response = await addToDoData(todo);
-  debugger;
-  return response.data;
+  return response;
 });
 
 export const deleteTodos = createAsyncThunk("todo/deleteTodos", async (id) => {
@@ -28,7 +26,7 @@ export const deleteTodos = createAsyncThunk("todo/deleteTodos", async (id) => {
   return response.data;
 });
 
-const initialToDo = [];
+const initialToDo: Todo[] = [];
 
 const toDoSlice = createSlice({
   name: "todo",
@@ -58,13 +56,11 @@ const toDoSlice = createSlice({
         state.status = "error";
       })
       .addCase(addTodos.pending, (state) => {
-        console.log("pending");
         state.status = "loading";
       })
       .addCase(addTodos.fulfilled, (state, action) => {
-        console.log("add");
-        debugger;
         state.status = "idle";
+        console.log(action)
         state.list = [...state.list, action.payload];
       })
       .addCase(addTodos.rejected, (state) => {

@@ -1,8 +1,7 @@
-import { useState, FC } from "react";
-// import { addTodo } from "../../redux/toDoSlice";
+import React, { useState, FC } from "react";
 import { useAppDispatch } from "../../redux/hooks";
-import { addToDoData } from "../toDoApi";
 import { Box, Button, TextField } from "@mui/material";
+import {addTodos} from "../../redux/toDoSlice";
 
 interface FormData {
   title: string;
@@ -43,7 +42,7 @@ const CreateTask: FC = () => {
       return;
     }
     console.log(data);
-    dispatch(addToDoData(data));
+    dispatch(addTodos(data));
     setData({ title: "", description: "" });
     setError("");
   };
